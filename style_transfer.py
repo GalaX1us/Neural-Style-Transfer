@@ -17,15 +17,20 @@ def tensor_to_image(tensor):
   return PIL.Image.fromarray(tensor)
 
 
-content_path = 'images/tubingen.jpg'
-style_path = 'images/starry-night.jpg'
+content_path = 'images/gyeongbokgung.jpg'
+style_path = 'images/the_scream.jpg'
+
+def get_name_from_path(path):
+    img = path.split('/')[-1]
+    name = img.split('.')[0]
+    return name
 
 
 def load_img(path_to_img):
-  max_dim = 512
+  max_dim = 1200
   img = tf.io.read_file(path_to_img)
   img = tf.image.decode_image(img, channels=3, dtype=tf.float32)
-  #img = tf.image.convert_image_dtype(img, tf.float32)
+  img = tf.image.convert_image_dtype(img, tf.float32)
 
   shape = tf.cast(tf.shape(img)[:-1], tf.float32)
   long_dim = max(shape)
@@ -171,9 +176,9 @@ def style_content_loss(outputs):
     
 #     return loss
 
-style_weight=1
-content_weight=1e-3
-total_variation_weight=1e-3
+style_weight=20
+content_weight=50
+total_variation_weight=30
 
 @tf.function()
 def train_step(image):
@@ -187,16 +192,15 @@ def train_step(image):
   image.assign(clip_0_1(image))
 
 
-opt = tf.keras.optimizers.Adam(learning_rate=0.02, epsilon=1e-1)
+opt = tf.keras.optimizers.Adam(learning_rate=0.02,beta_1 = 0.99,beta_2 = 0.999, epsilon=1e-1)
 image = tf.Variable(content_image)
 
 
 import time
 start = time.time()
 
-epochs = 10
+epochs = 50
 steps_per_epoch = 100
-file_name = 'stylized-image-{}.png'
 
 step = 0
 for n in range(epochs):
@@ -208,7 +212,10 @@ for n in range(epochs):
 
 end = time.time()
 print("Total time: {:.1f}".format(end-start))
-tensor_to_image(image).save(file_name.format(1))
+file_name = "stylized-image-{}-{}-{}-{}-{}.png".format(get_name_from_path(content_path), 
+                                                       get_name_from_path(style_path),
+                                                       style_weight, content_weight, total_variation_weight)
+tensor_to_image(image).save(file_name)
 
 
 
