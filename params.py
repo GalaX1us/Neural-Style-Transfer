@@ -1,0 +1,19 @@
+#Optimizer
+LEARNING_RATE = 0.02
+BETA_1 = 0.99
+BETA_2 = 0.999
+EPSILON = 1e-1
+
+#Training
+EPOCHS = 25
+STEPS_PER_EPOCHS = 100
+
+STYLE_WEIGHT = 1
+CONTENT_WEIGHT = 50
+TOTAL_VARIATION_WEIGHT = 30
+
+#Image
+MAX_IMG_SIZE = 1200
+CONTENT_PATH = 'images/gyeongbokgung.jpg'
+STYLE_PATH = 'images/the_scream.jpg'
+OUTPUT_PATH = './'
