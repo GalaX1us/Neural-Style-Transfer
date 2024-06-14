@@ -1,7 +1,6 @@
 import numpy as np
 import imageio
 from PIL import Image
-from skimage import color
 from params import *
 
 import tensorflow as tf
