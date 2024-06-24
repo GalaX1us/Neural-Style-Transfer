@@ -10,6 +10,7 @@ Neural Style Transfer is a technique that allows us to **combine the content of 
 
 **Feature Extraction with a Pre-trained Model (VGG19)**:
 
+![VGG19 Architecture](doc/VGG-19-Architecture.png)
 - A pre-trained convolutional neural network, such as VGG19, is used to extract features from the content and style images. VGG19 is particularly good at capturing high-level features due to its deep architecture.
 - The model is used to obtain feature representations of the content and style images at different layers.
 
